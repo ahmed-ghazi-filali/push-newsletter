@@ -16,7 +16,7 @@
             applicationServerKey: 'YOUR_VAPID_PUBLIC_KEY'
           });
           // Send subscription to your server
-          await fetch('YOUR_PYTHONANYWHERE_URL/subscribe', {
+          await fetch('https://ahmedghazifilali.pythonanywhere.com/', {
             method: 'POST',
             body: JSON.stringify(subscription),
             headers: {
