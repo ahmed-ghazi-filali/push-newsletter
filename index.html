@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Newsletter Push</title>
+</head>
+<body>
+  <h1>Subscribe to Push Notifications</h1>
+  <button id="subscribe">Enable Notifications</button>
+  <script>
+    document.getElementById('subscribe').addEventListener('click', async () => {
+      if ('serviceWorker' in navigator && 'PushManager' in window) {
+        try {
+          const registration = await navigator.serviceWorker.register('/sw.js');
+          const subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: 'YOUR_VAPID_PUBLIC_KEY'
+          });
+          // Send subscription to your server
+          await fetch('YOUR_PYTHONANYWHERE_URL/subscribe', {
+            method: 'POST',
+            body: JSON.stringify(subscription),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          alert('Subscribed to notifications!');
+        } catch (err) {
+          console.error('Failed to subscribe:', err);
+          alert('Failed to subscribe: ' + err.message);
+        }
+      } else {
+        alert('Push notifications not supported in your browser.');
+      }
+    });
+  </script>
+</body>
+</html>
